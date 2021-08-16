@@ -126,7 +126,7 @@ final class ApkUtil {
         zipCentralDirectoryStart.order(ByteOrder.LITTLE_ENDIAN);
         fileChannel.position(fileChannel.size() - commentLength - 6); // 6 = 2 (Comment length) + 4 (Offset of start of central directory, relative to start of archive)
         fileChannel.read(zipCentralDirectoryStart);
-        final long centralDirStartOffset = zipCentralDirectoryStart.getInt(0);
+        long centralDirStartOffset = zipCentralDirectoryStart.getInt(0) & 0xffffffffl;
         return centralDirStartOffset;
     }
 
